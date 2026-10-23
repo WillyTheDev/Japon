@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🗾 Japon — To-Do</title>
+<style>
+  :root{
+    --bg:#0e1117; --bg2:#151a23; --card:#1a212d; --card2:#202935;
+    --line:#2a3441; --text:#e6edf3; --muted:#8b98a8;
+    --wanted:#ffd166; --wanted-bg:rgba(255,209,102,.08);
+    --suggest:#7aa2f7; --suggest-bg:rgba(122,162,247,.06);
+    --done:#4ade80; --accent:#ff6b6b;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:radial-gradient(1200px 600px at 80% -10%,#1c2534 0%,var(--bg) 55%);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.5;padding-bottom:60px}
+  header{padding:40px 20px 20px;text-align:center;border-bottom:1px solid var(--line)}
+  h1{font-size:clamp(1.8rem,5vw,2.6rem);margin:0 0 6px;letter-spacing:-.5px}
+  .sub{color:var(--muted);font-size:.95rem}
+  .legend{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:18px;font-size:.85rem}
+  .legend span{background:var(--card);border:1px solid var(--line);padding:4px 12px;border-radius:999px}
+  .doi{color:var(--wanted)} .dun{color:var(--suggest)} .dok{color:var(--done)}
+  .progress{max-width:560px;margin:22px auto 0;padding:0 20px}
+  .bar{height:8px;background:var(--card2);border-radius:999px;overflow:hidden}
+  .bar>div{height:100%;background:linear-gradient(90deg,#4ade80,#22d3ee);border-radius:999px;transition:width .4s}
+  .ptxt{display:flex;justify-content:space-between;color:var(--muted);font-size:.8rem;margin-top:6px}
+  main{max-width:880px;margin:0 auto;padding:10px 16px}
+  section{background:var(--card);border:1px solid var(--line);border-radius:14px;margin:18px 0;overflow:hidden}
+  section.h{display:flex;align-items:center;gap:10px;padding:14px 18px;background:var(--card2);border-bottom:1px solid var(--line);font-weight:700;font-size:1.05rem}
+  ul{list-style:none;margin:0;padding:10px 6px}
+  li{display:flex;align-items:flex-start;gap:12px;padding:9px 12px;border-radius:10px}
+  li+li{border-top:1px solid var(--line)}
+  li .mark{font-size:1.15rem;line-height:1.4;flex:0 0 auto}
+  li .txt{flex:1 1 auto}
+  li .txt small{display:block;color:var(--muted);margin-top:1px}
+  li.done{opacity:.55}
+  li.done .txt{text-decoration:line-through}
+  li.done{background:rgba(74,222,128,.05)}
+  li.wanted .mark::after, li.suggest .mark::after{display:none}
+  li .tag{font-size:.7rem;font-weight:700;letter-spacing:.4px;text-transform:uppercase;padding:2px 7px;border-radius:6px;flex:0 0 auto;margin-top:2px}
+  li.wanted .tag{color:var(--wanted);background:var(--wanted-bg);border:1px solid rgba(255,209,102,.25)}
+  li.suggest .tag{color:var(--suggest);background:var(--suggest-bg);border:1px solid rgba(122,162,247,.25)}
+  footer{text-align:center;color:var(--muted);font-size:.78rem;margin-top:30px}
+  footer a{color:var(--muted)}
+</style>
+</head>
+<body>
+<header>
+  <h1>🗾 Japon — To-Do</h1>
+  <div class="sub">Les potes, le plan du voyage — mis à jour en direct depuis le fil Discord.</div>
+  <div class="legend">
+    <span>✅ fait</span>
+    <span class="doi">🎯 prévu — on le veut</span>
+    <span class="dun">👀 suggestion — si on a un trou</span>
+  </div>
+  <div class="progress">
+    <div class="bar"><div id="fill" style="width:0"></div></div>
+    <div class="ptxt"><span id="count">…</span><span id="loc">Tokyo & alentours</span></div>
+  </div>
+</header>
+<main id="list"></main>
+<footer>Fait avec ❤️ depuis le fil Discord · dernière mise à jour : <span id="date"></span></footer>
+
+<script>
+const DATA = [
+  {area:"🏨 Akihabara", items:[
+    {t:"Déposer la valise à l'hôtel (base)", done:true, kind:"wanted"},
+    {t:"Yodobashi-Akiba", s:"8 étages électronique / montres / hobby", kind:"suggest"},
+    {t:"Mandarake / Super Potato", s:"rétro anime & jeux", kind:"suggest"},
+    {t:"Maidreamin", s:"maid café", kind:"suggest"},
+  ]},
+  {area:"🏛️ Ueno", items:[
+    {t:"Musée national de Tokyo", done:true, kind:"wanted"},
+    {t:"Musée national de la Nature et des Sciences", kind:"wanted"},
+    {t:"Visite du parc d'Ueno", done:true, kind:"wanted"},
+    {t:"Ameyoko", s:"marché de rue animé", kind:"suggest"},
+  ]},
+  {area:"⛩️ Asakusa / Sumida", items:[
+    {t:"Senso-ji + rue Nakamise", kind:"wanted"},
+    {t:"Kappabashi Street", s:"couteaux & ustensiles", kind:"wanted"},
+    {t:"Tokyo Skytree", s:"634 m", kind:"wanted"},
+    {t:"Mystery date 4 🚨", s:"4-6-6 Yokokawa", kind:"wanted"},
+    {t:"Croisière sur la Sumida (Hotaluna)", kind:"suggest"},
+    {t:"Ryogoku", s:"quartier du sumo + Kokugikan", kind:"suggest"},
+  ]},
+  {area:"🌃 Shinjuku", items:[
+    {t:"Mystery date 1 🎷", s:"2-14-8 Takadanobaba (Ntビル B1)", kind:"wanted"},
+    {t:"Mystery date 2 ⚾", s:"2-21-13 Kabukicho", kind:"wanted"},
+    {t:"Golden Gai", s:"micro-bars", kind:"suggest"},
+    {t:"Omoide Yokocho", s:"izakaya", kind:"suggest"},
+    {t:"Shinjuku Gyoen", s:"parc", kind:"suggest"},
+    {t:"Observatoire gratuit (Mairie de Tokyo)", kind:"suggest"},
+  ]},
+  {area:"🌊 Koto / Odaiba", items:[
+    {t:"Mystery date 3 🪐", s:"6-1-16 Toyosu", kind:"wanted"},
+    {t:"Mystery date 5 💩", s:"1-1-10 Aomi", kind:"wanted"},
+    {t:"Tokyo Joypolis", s:"Sega, indoor", kind:"suggest"},
+    {t:"Toyosu Market", s:"marché aux poissons tôt le matin", kind:"suggest"},
+  ]},
+  {area:"🏞️ Inagi (banlieue ouest)", items:[
+    {t:"Mystery date 6 ⚡", s:"4015-1 Yanokuchi", kind:"wanted"},
+    {t:"Berges de la rivière Tama", s:"balade", kind:"suggest"},
+  ]},
+  {area:"🌸 Shibuya / Harajuku / Yoyogi", items:[
+    {t:"Meiji Jingu", s:"sanctuaire en forêt", kind:"wanted"},
+    {t:"Yoyogi Park", s:"le dimanche — cosplayers, musiciens", kind:"wanted"},
+    {t:"Photo toilettes Perfect Days", s:"Shigeru Ban (Yoyogi Fukamachi) · Kengo Kuma (Nabeshima Shōtō)", kind:"wanted"},
+    {t:"Tokyu Hands / Loft", s:"papeterie & cadeaux", kind:"wanted"},
+    {t:"Shibuya Sky", s:"rooftop au-dessus du Crossing", kind:"suggest"},
+    {t:"Takeshita Dori", s:"Harajuku", kind:"suggest"},
+    {t:"Cat Street / Omotesando", kind:"suggest"},
+  ]},
+  {area:"🎸 Harajuku", items:[
+    {t:"SUPER TAKANAKA POP UP! ⚠️ jusqu'au 1er nov", s:"Universal Music Store, 1-20-6 Jingumae — 11h-20h, gratuit", kind:"wanted"},
+    {t:"Kiddy Land", s:"jouets & persos (souvenirs)", kind:"suggest"},
+  ]},
+  {area:"🌆 Roppongi / Azabudai", items:[
+    {t:"teamLab Borderless ⚠️ réserver", s:"Azabudai Hills — immersion digitale", kind:"wanted"},
+    {t:"Mori Art Museum", s:"vue du 52e étage", kind:"wanted"},
+    {t:"21_21 Design Sight", s:"musée du design", kind:"suggest"},
+    {t:"National Art Center Tokyo", kind:"suggest"},
+  ]},
+  {area:"🌿 Bunkyō / Chiyoda", items:[
+    {t:"Jardin Rikugien", kind:"wanted"},
+    {t:"Jogging palais impérial", s:"~5 km", kind:"wanted"},
+    {t:"Koishikawa Korakuen", s:"jardin", kind:"suggest"},
+  ]},
+  {area:"🧖 Onsen / sento (tattoo-friendly)", items:[
+    {t:"Kotobuki-yu (Higashi-Ueno)", s:"~¥600", kind:"wanted"},
+    {t:"Koganeyu (Kinshicho) / Daikokuyu (Oshiage)", kind:"wanted"},
+    {t:"Konparuyu (Ginza)", s:"depuis 1863", kind:"wanted"},
+  ]},
+  {area:"🍜 Bouffe (noms concrets)", items:[
+    {t:"Ramen", s:"Ichiran Shibuya ou Afuri yuzu (Ebisu)", kind:"wanted"},
+    {t:"Sushi omakase", s:"Sushi no Midori (Ginza) ou Sushi Dai (Toyosu)", kind:"wanted"},
+    {t:"Matcha + wagashi", s:"Nakamura Tokichi (Ginza) ou Ippodo (Marunouchi)", kind:"wanted"},
+    {t:"Karaoké", s:"Karaoke Kan Shibuya ou Big Echo", kind:"wanted"},
+    {t:"Café à thème", s:"Mocha cat café (Shibuya) ou Maidreamin (Akihabara)", kind:"wanted"},
+    {t:"Cours de cuisine", s:"Sushi Making Tokyo (Asakusa) ou Ramen class (Shinjuku)", kind:"wanted"},
+  ]},
+  {area:"🎒 Achats", items:[
+    {t:"Montre Orient", s:"Yodobashi-Akiba / Bic Camera (tax-free)", kind:"wanted"},
+    {t:"Gundam", s:"Gundam Base Tokyo (DiverCity 7F) ou Yodobashi-Akiba", kind:"wanted"},
+    {t:"Don Quijote", s:"MEGA Donki Shibuya (24h) ou Akihabara", kind:"wanted"},
+    {t:"Souvenirs copains", s:"Alex · Carolina · JN · Lucie · Tom · Bastien · Justin · Coralie", kind:"wanted"},
+    {t:"Courir 5-10 km dans chaque ville", kind:"wanted"},
+  ]},
+];
+
+const list = document.getElementById('list');
+let done=0, total=0;
+DATA.forEach(sec=>{
+  const s=document.createElement('section');
+  const h=document.createElement('div'); h.className='h'; h.textContent=sec.area;
+  const ul=document.createElement('ul');
+  sec.items.forEach(it=>{
+    total++;
+    if(it.done) done++;
+    const li=document.createElement('li');
+    li.className = (it.done?'done ':'')+(it.kind==='suggest'?'suggest':'wanted');
+    const mark=document.createElement('span'); mark.className='mark'; mark.textContent=it.done?'☑':'☐';
+    const txt=document.createElement('div'); txt.className='txt'; txt.textContent=it.t;
+    if(it.s){const sm=document.createElement('small'); sm.textContent=it.s; txt.appendChild(sm);}
+    li.appendChild(mark); li.appendChild(txt);
+    const tag=document.createElement('span'); tag.className='tag';
+    tag.textContent = it.kind==='suggest' ? '👀 si trou' : '🎯 prévu';
+    li.appendChild(tag);
+    ul.appendChild(li);
+  });
+  s.appendChild(h); s.appendChild(ul); list.appendChild(s);
+});
+document.getElementById('fill').style.width = (done/total*100)+'%';
+document.getElementById('count').textContent = done+' / '+total+' faits';
+const d=new Date();
+document.getElementById('date').textContent = d.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'})+' · '+d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+</script>
+</body>
+</html>
