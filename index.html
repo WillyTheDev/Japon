@@ -162,9 +162,11 @@ DATA.forEach(sec=>{
     const txt=document.createElement('div'); txt.className='txt'; txt.textContent=it.t;
     if(it.s){const sm=document.createElement('small'); sm.textContent=it.s; txt.appendChild(sm);}
     li.appendChild(mark); li.appendChild(txt);
-    const tag=document.createElement('span'); tag.className='tag';
-    tag.textContent = it.kind==='suggest' ? '👀 si trou' : '🎯 prévu';
-    li.appendChild(tag);
+    if(!it.done){
+      const tag=document.createElement('span'); tag.className='tag';
+      tag.textContent = it.kind==='suggest' ? '👀 si trou' : '🎯 prévu';
+      li.appendChild(tag);
+    }
     ul.appendChild(li);
   });
   s.appendChild(h); s.appendChild(ul); list.appendChild(s);
