@@ -67,7 +67,7 @@ const DATA = [
     {t:"Déposer la valise à l'hôtel (base)", done:true, kind:"wanted"},
     {t:"Yodobashi-Akiba", s:"8 étages électronique / montres / hobby", kind:"suggest"},
     {t:"Mandarake / Super Potato", s:"rétro anime & jeux", kind:"suggest"},
-    {t:"Maidreamin", s:"maid café", kind:"suggest"},
+    {t:"Café à thème — Maidreamin", s:"maid café", kind:"wanted"},
   ]},
   {area:"🏛️ Ueno", items:[
     {t:"Musée national de Tokyo", done:true, kind:"wanted"},
@@ -80,12 +80,14 @@ const DATA = [
     {t:"Kappabashi Street", s:"couteaux & ustensiles", kind:"wanted"},
     {t:"Tokyo Skytree", s:"634 m", kind:"wanted"},
     {t:"Mystery date 4 🚨", s:"4-6-6 Yokokawa", kind:"wanted"},
+    {t:"Cours de cuisine — Sushi Making Tokyo", s:"sushi hands-on", kind:"wanted"},
     {t:"Croisière sur la Sumida (Hotaluna)", kind:"suggest"},
     {t:"Ryogoku", s:"quartier du sumo + Kokugikan", kind:"suggest"},
   ]},
   {area:"🌃 Shinjuku", items:[
     {t:"Mystery date 1 🎷", s:"2-14-8 Takadanobaba (Ntビル B1)", kind:"wanted"},
     {t:"Mystery date 2 ⚾", s:"2-21-13 Kabukicho", kind:"wanted"},
+    {t:"Cours de cuisine — Ramen class", s:"Kabukicho", kind:"wanted"},
     {t:"Golden Gai", s:"micro-bars", kind:"suggest"},
     {t:"Omoide Yokocho", s:"izakaya", kind:"suggest"},
     {t:"Shinjuku Gyoen", s:"parc", kind:"suggest"},
@@ -94,6 +96,7 @@ const DATA = [
   {area:"🌊 Koto / Odaiba", items:[
     {t:"Mystery date 3 🪐", s:"6-1-16 Toyosu", kind:"wanted"},
     {t:"Mystery date 5 💩", s:"1-1-10 Aomi", kind:"wanted"},
+    {t:"Sushi omakase — Sushi Dai", s:"marché Toyosu, comptoir", kind:"wanted"},
     {t:"Tokyo Joypolis", s:"Sega, indoor", kind:"suggest"},
     {t:"Toyosu Market", s:"marché aux poissons tôt le matin", kind:"suggest"},
   ]},
@@ -106,6 +109,9 @@ const DATA = [
     {t:"Yoyogi Park", s:"le dimanche — cosplayers, musiciens", kind:"wanted"},
     {t:"Photo toilettes Perfect Days", s:"Shigeru Ban (Yoyogi Fukamachi) · Kengo Kuma (Nabeshima Shōtō)", kind:"wanted"},
     {t:"Tokyu Hands / Loft", s:"papeterie & cadeaux", kind:"wanted"},
+    {t:"Ramen", s:"Ichiran Shibuya ou Afuri yuzu (Ebisu)", kind:"wanted"},
+    {t:"Karaoké", s:"Karaoke Kan Shibuya ou Big Echo", kind:"wanted"},
+    {t:"Cat café — Mocha", s:"Shibuya / Harajuku", kind:"wanted"},
     {t:"Shibuya Sky", s:"rooftop au-dessus du Crossing", kind:"suggest"},
     {t:"Takeshita Dori", s:"Harajuku", kind:"suggest"},
     {t:"Cat Street / Omotesando", kind:"suggest"},
@@ -130,13 +136,9 @@ const DATA = [
     {t:"Koganeyu (Kinshicho) / Daikokuyu (Oshiage)", kind:"wanted"},
     {t:"Konparuyu (Ginza)", s:"depuis 1863", kind:"wanted"},
   ]},
-  {area:"🍜 Bouffe (noms concrets)", items:[
-    {t:"Ramen", s:"Ichiran Shibuya ou Afuri yuzu (Ebisu)", kind:"wanted"},
-    {t:"Sushi omakase", s:"Sushi no Midori (Ginza) ou Sushi Dai (Toyosu)", kind:"wanted"},
-    {t:"Matcha + wagashi", s:"Nakamura Tokichi (Ginza) ou Ippodo (Marunouchi)", kind:"wanted"},
-    {t:"Karaoké", s:"Karaoke Kan Shibuya ou Big Echo", kind:"wanted"},
-    {t:"Café à thème", s:"Mocha cat café (Shibuya) ou Maidreamin (Akihabara)", kind:"wanted"},
-    {t:"Cours de cuisine", s:"Sushi Making Tokyo (Asakusa) ou Ramen class (Shinjuku)", kind:"wanted"},
+  {area:"🏬 Ginza / Chūō", items:[
+    {t:"Sushi omakase — Sushi no Midori", s:"Ginza", kind:"wanted"},
+    {t:"Matcha + wagashi — Nakamura Tokichi", s:"Ginza, ou Ippodo (Marunouchi)", kind:"wanted"},
   ]},
   {area:"🎒 Achats", items:[
     {t:"Montre Orient", s:"Yodobashi-Akiba / Bic Camera (tax-free)", kind:"wanted"},
