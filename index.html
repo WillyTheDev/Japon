@@ -52,6 +52,7 @@
     <span>✅ fait</span>
     <span class="doi">🎯 prévu — on le veut</span>
     <span class="dun">👀 suggestion — si on a un trou</span>
+    <span>🧖 sento tattoo-friendly</span>
   </div>
   <div class="progress">
     <div class="bar"><div id="fill" style="width:0"></div></div>
@@ -83,6 +84,7 @@ const DATA = [
     {t:"Musée national de la Nature et des Sciences", kind:"wanted"},
     {t:"Visite du parc d'Ueno", done:true, kind:"wanted"},
     {t:"Ameyoko", s:"marché de rue animé", kind:"suggest"},
+    {t:"🧖 Kotobuki-yu (Higashi-Ueno)", s:"~¥600, tattoo OK", kind:"wanted"},
   ]},
   {area:"⛩️ Asakusa / Sumida", items:[
     {t:"Senso-ji + rue Nakamise", kind:"wanted"},
@@ -93,6 +95,9 @@ const DATA = [
     {t:"Cours de cuisine — Sushi Making Tokyo", s:"sushi hands-on", kind:"wanted"},
     {t:"Croisière sur la Sumida (Hotaluna)", kind:"suggest"},
     {t:"Ryogoku", s:"quartier du sumo + Kokugikan", kind:"suggest"},
+    {t:"🧖 Koganeyu (Kinshicho)", s:"sauna + bière", kind:"wanted"},
+    {t:"🧖 Daikoku-yu (Oshiage)", s:"onsen naturel", kind:"wanted"},
+    {t:"🧖 Hinode-yu (Moto-Asakusa)", s:"onsen, ~¥600", kind:"wanted"},
   ]},
   {area:"🌃 Shinjuku", items:[
     {t:"Mystery date 1 🎷", s:"2-14-8 Takadanobaba (Ntビル B1)", kind:"wanted"},
@@ -102,6 +107,8 @@ const DATA = [
     {t:"Omoide Yokocho", s:"izakaya", kind:"suggest"},
     {t:"Shinjuku Gyoen", s:"parc", kind:"suggest"},
     {t:"Observatoire gratuit (Mairie de Tokyo)", kind:"suggest"},
+    {t:"🧖 Mannen-yu 万年湯 (Shin-Okubo)", s:"15h–minuit, tattoo OK", kind:"wanted"},
+    {t:"🧖 Hisamatsuyu 久松湯 (Nerima)", s:"onsen naturel", kind:"wanted"},
   ]},
   {area:"🌊 Koto / Odaiba", items:[
     {t:"Mystery date 3 🪐", s:"6-1-16 Toyosu", kind:"wanted"},
@@ -126,6 +133,8 @@ const DATA = [
     {t:"Takeshita Dori", s:"Harajuku", kind:"suggest"},
     {t:"Cat Street / Omotesando", kind:"suggest"},
     {t:"⛩️ Gotokuji", s:"Setagaya (ouest) — temple du chat maneki-neko", kind:"suggest"},
+    {t:"🧖 Kairyo-yu (Shibuya)", s:"design + sauna", kind:"wanted"},
+    {t:"🧖 Daikoku-yu (Yoyogi-Uehara)", s:"style Shōwa", kind:"wanted"},
   ]},
   {area:"🎸 Harajuku", items:[
     {t:"Kiddy Land", s:"jouets & persos (souvenirs)", kind:"suggest"},
@@ -149,14 +158,10 @@ const DATA = [
     {t:"⛩️ Sengaku-ji", s:"Shinagawa — temple des 47 rōnins", kind:"suggest"},
     {t:"Aqua Park Shinagawa", s:"aquarium immersif (ouvre 10h)", kind:"suggest"},
   ]},
-  {area:"🧖 Onsen / sento (tattoo-friendly)", items:[
-    {t:"Kotobuki-yu (Higashi-Ueno)", s:"~¥600", kind:"wanted"},
-    {t:"Koganeyu (Kinshicho) / Daikokuyu (Oshiage)", kind:"wanted"},
-    {t:"Konparuyu (Ginza)", s:"depuis 1863", kind:"wanted"},
-  ]},
   {area:"🏬 Ginza / Chūō", items:[
     {t:"Sushi omakase — Sushi no Midori", s:"Ginza", kind:"wanted"},
     {t:"Matcha + wagashi — Nakamura Tokichi", s:"Ginza, ou Ippodo (Marunouchi)", kind:"wanted"},
+    {t:"🧖 Konparuyu (Ginza)", s:"depuis 1863, tattoo OK", kind:"wanted"},
   ]},
   {area:"🎒 Achats", items:[
     {t:"Montre Orient", s:"Yodobashi-Akiba / Bic Camera (tax-free)", kind:"wanted"},
