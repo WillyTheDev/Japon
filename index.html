@@ -165,6 +165,20 @@ const DATA = [
     {t:"Souvenirs copains", s:"Alex · Carolina · JN · Lucie · Tom · Bastien · Justin · Coralie", kind:"wanted"},
     {t:"Courir 5-10 km dans chaque ville", kind:"wanted"},
   ]},
+  {area:"ℹ️ Infos pratiques", items:[
+    {t:"⛩️ Se purifier (temizu)", s:"louche main droite → rincer main gauche → main gauche → rincer main droite → bouche (recracher à côté) → rincer le manche", kind:"info"},
+    {t:"💰 Don (saisen)", s:"pièce de 5 yens porte-bonheur · shinto = 2 saluts + 2 claps + 1 salut · temple = salut, mains jointes", kind:"info"},
+    {t:"Sumimasen すみません", s:"appeler le serveur", kind:"info"},
+    {t:"Onegaishimasu お願いします", s:"s'il vous plaît", kind:"info"},
+    {t:"Kore o kudasai これをください", s:"je prends ça (en pointant)", kind:"info"},
+    {t:"O-susume wa? おすすめは？", s:"que recommandez-vous ?", kind:"info"},
+    {t:"O-mizu kudasai お水ください", s:"de l'eau svp", kind:"info"},
+    {t:"Itadakimasu いただきます", s:"bon appétit (avant)", kind:"info"},
+    {t:"Oishii! おいしい！", s:"c'est délicieux", kind:"info"},
+    {t:"Gochisōsama deshita ごちそうさま", s:"merci pour le repas (après)", kind:"info"},
+    {t:"O-kaikei onegaishimasu お会計お願いします", s:"l'addition svp", kind:"info"},
+    {t:"Arigatō gozaimasu ありがとうございます", s:"merci beaucoup", kind:"info"},
+  ]},
 ];
 
 const list = document.getElementById('list');
@@ -174,15 +188,15 @@ DATA.forEach(sec=>{
   const h=document.createElement('div'); h.className='h'; h.textContent=sec.area;
   const ul=document.createElement('ul');
   sec.items.forEach(it=>{
-    total++;
-    if(it.done) done++;
+    const isInfo = it.kind==='info';
+    if(!isInfo){ total++; if(it.done) done++; }
     const li=document.createElement('li');
-    li.className = (it.done?'done ':'')+(it.kind==='suggest'?'suggest':'wanted');
-    const mark=document.createElement('span'); mark.className='mark'; mark.textContent=it.done?'☑':'☐';
+    li.className = (it.done?'done ':'')+(it.kind==='suggest'?'suggest':isInfo?'info':'wanted');
+    const mark=document.createElement('span'); mark.className='mark'; mark.textContent=it.done?'☑':(isInfo?'ℹ️':'☐');
     const txt=document.createElement('div'); txt.className='txt'; txt.textContent=it.t;
     if(it.s){const sm=document.createElement('small'); sm.textContent=it.s; txt.appendChild(sm);}
     li.appendChild(mark); li.appendChild(txt);
-    if(!it.done){
+    if(!it.done && !isInfo){
       const tag=document.createElement('span'); tag.className='tag';
       tag.textContent = it.kind==='suggest' ? '👀 si trou' : '🎯 prévu';
       li.appendChild(tag);
